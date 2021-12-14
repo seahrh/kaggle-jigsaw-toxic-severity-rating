@@ -6,6 +6,7 @@ setup(
     version=__version__,
     python_requires="~=3.7",
     install_requires=[
+        "lightgbm==3.3.1",
         "optuna==2.9.1",
         "pandas==1.3.2",
         "pyarrow==5.0.0",
