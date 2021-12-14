@@ -11,7 +11,7 @@ setup(
         "pyarrow==5.0.0",
         "scikit-learn==0.23.2",
         "pytorch-lightning==1.4.5",
-        "sentencepiece==0.1.96",
+        "sentence-transformers==2.1.0",
         "transformers==4.9.2",
         "tqdm==4.62.1",
     ],
