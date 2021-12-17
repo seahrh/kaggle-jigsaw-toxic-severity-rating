@@ -6,6 +6,7 @@ setup(
     version=__version__,
     python_requires="~=3.7",
     install_requires=[
+        "detoxify==0.4.0",
         "lightgbm==3.3.1",
         "optuna==2.9.1",
         "pandas==1.3.2",
@@ -13,6 +14,7 @@ setup(
         "scikit-learn==0.23.2",
         "pytorch-lightning==1.4.5",
         "sentence-transformers==2.1.0",
+        "textstat==0.7.2",
         "transformers==4.9.2",
         "tqdm==4.62.1",
     ],

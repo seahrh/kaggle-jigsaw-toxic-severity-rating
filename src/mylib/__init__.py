@@ -1,3 +1,5 @@
+from detoxify import Detoxify
+from typing import List, Dict
 from scml import nlp as snlp
 
 __all__ = [
@@ -7,6 +9,7 @@ __all__ = [
     "space_frac",
     "punc_frac",
     "upper_frac",
+    "detoxify_labels",
 ]
 
 
@@ -14,7 +17,7 @@ def preprocess(s: str) -> str:
     """
     Preserve case and punctuation.
     """
-    res = snlp.to_ascii(s)
+    res: str = snlp.to_ascii(s)
     res = snlp.expand_contractions(res)
     res = " ".join(res.split())
     return res
@@ -38,3 +41,24 @@ def punc_frac(s: str) -> float:
 
 def upper_frac(s: str) -> float:
     return snlp.count_upper(s) / len(s)  # type: ignore
+
+
+def detoxify_labels(
+    sentences: List[str], checkpoint: str, device, batch_size: int
+) -> Dict[str, List[float]]:
+    model = Detoxify(
+        checkpoint=checkpoint,
+        device=device,
+    )
+    i = 0
+    res: Dict[str, List[float]] = {}
+    while i < len(sentences):
+        batch = sentences[i : i + batch_size]
+        tmp = model.predict(batch)
+        if len(res) == 0:
+            res = tmp
+        else:
+            for k in res.keys():
+                res[k] += tmp[k]
+        i += batch_size
+    return res
