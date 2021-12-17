@@ -1,6 +1,13 @@
 from scml import nlp as snlp
 
-__all__ = ["preprocess"]
+__all__ = [
+    "preprocess",
+    "digit_frac",
+    "letter_frac",
+    "space_frac",
+    "punc_frac",
+    "upper_frac",
+]
 
 
 def preprocess(s: str) -> str:
@@ -11,3 +18,23 @@ def preprocess(s: str) -> str:
     res = snlp.expand_contractions(res)
     res = " ".join(res.split())
     return res
+
+
+def digit_frac(s: str) -> float:
+    return snlp.count_digit(s) / len(s)  # type: ignore
+
+
+def letter_frac(s: str) -> float:
+    return snlp.count_alpha(s) / len(s)  # type: ignore
+
+
+def space_frac(s: str) -> float:
+    return snlp.count_space(s) / len(s)  # type: ignore
+
+
+def punc_frac(s: str) -> float:
+    return snlp.count_punctuation(s) / len(s)  # type: ignore
+
+
+def upper_frac(s: str) -> float:
+    return snlp.count_upper(s) / len(s)  # type: ignore
