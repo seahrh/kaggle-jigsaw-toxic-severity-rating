@@ -15,7 +15,7 @@ setup(
         "pytorch-lightning==1.4.5",
         "sentence-transformers==2.1.0",
         "textstat==0.7.2",
-        "transformers==4.9.2",
+        "transformers==4.12.5",
         "tqdm==4.62.1",
     ],
     extras_require={
