@@ -1,3 +1,4 @@
+import torch
 from scml import nlp as snlp
 
 __all__ = [
@@ -7,6 +8,7 @@ __all__ = [
     "space_frac",
     "punc_frac",
     "upper_frac",
+    "Dataset",
 ]
 
 
@@ -38,6 +40,18 @@ def punc_frac(s: str) -> float:
 
 def upper_frac(s: str) -> float:
     return snlp.count_upper(s) / len(s)  # type: ignore
+
+
+# noinspection PyUnresolvedReferences
+class Dataset(torch.utils.data.Dataset):
+    def __init__(self, encodings):
+        self.encodings = encodings
+
+    def __getitem__(self, idx):
+        return {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+
+    def __len__(self):
+        return len(self.encodings.input_ids)
 
 
 from .detoxify import *
