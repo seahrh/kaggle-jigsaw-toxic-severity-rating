@@ -1,8 +1,10 @@
+import emoji
 import torch
 from scml import nlp as snlp
 
+
 __all__ = [
-    "preprocess",
+    "pre1",
     "digit_frac",
     "letter_frac",
     "space_frac",
@@ -12,11 +14,14 @@ __all__ = [
 ]
 
 
-def preprocess(s: str) -> str:
+def pre1(s: str) -> str:
     """
-    Preserve case and punctuation.
+    Preprocess Stage 1: Preserve case and punctuation.
     """
-    res: str = snlp.to_ascii(s)
+    res: str = snlp.to_str(s)
+    res = emoji.demojize(res)
+    res = snlp.emoji_shortcode_to_text(res)
+    res = snlp.to_ascii(res)
     res = snlp.expand_contractions(res)
     res = " ".join(res.split())
     return res
