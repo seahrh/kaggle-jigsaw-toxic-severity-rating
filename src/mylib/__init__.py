@@ -1,10 +1,12 @@
 import emoji
 import torch
 from scml import nlp as snlp
+from typing import AnyStr
 
 
 __all__ = [
     "pre1",
+    "pre2",
     "digit_frac",
     "letter_frac",
     "space_frac",
@@ -14,7 +16,7 @@ __all__ = [
 ]
 
 
-def pre1(s: str) -> str:
+def pre1(s: AnyStr) -> str:
     """
     Preprocess Stage 1: Preserve case and punctuation.
     """
@@ -22,7 +24,20 @@ def pre1(s: str) -> str:
     res = emoji.demojize(res)
     res = snlp.emoji_shortcode_to_text(res)
     res = snlp.to_ascii(res)
+    res = " ".join(res.split())
+    return res
+
+
+_slang = snlp.Slang()
+
+
+def pre2(s: str) -> str:
+    """
+    Preprocess Stage 2: Prepare output for transformer models, embeddings
+    """
+    res = s
     res = snlp.expand_contractions(res)
+    res = _slang.expand(res)
     res = " ".join(res.split())
     return res
 
