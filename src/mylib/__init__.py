@@ -36,8 +36,8 @@ def pre2(s: str) -> str:
     Preprocess Stage 2: Prepare output for transformer models, embeddings
     """
     res = s
-    res = snlp.expand_contractions(res)
     res = _slang.expand(res)
+    res = snlp.expand_contractions(res)
     res = " ".join(res.split())
     return res
 
