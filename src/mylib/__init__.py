@@ -15,20 +15,25 @@ __all__ = [
     "Dataset",
 ]
 
+_emoticon = snlp.EmoticonToText(prefix=" [", suffix="] ")
+_slang = snlp.SlangExpansion()
+_contraction = snlp.ContractionExpansion()
+
 
 def pre1(s: AnyStr) -> str:
     """
     Preprocess Stage 1: Preserve case and punctuation.
     """
     res: str = snlp.to_str(s)
+    # remove extra whitespace before preprocess
+    res = " ".join(res.split())
     res = emoji.demojize(res)
     res = snlp.emoji_shortcode_to_text(res)
+    res = _emoticon.apply(res)
     res = snlp.to_ascii(res)
+    # make sure no extra whitespace after preprocess
     res = " ".join(res.split())
     return res
-
-
-_slang = snlp.Slang()
 
 
 def pre2(s: str) -> str:
@@ -36,8 +41,8 @@ def pre2(s: str) -> str:
     Preprocess Stage 2: Prepare output for transformer models, embeddings
     """
     res = s
-    res = _slang.expand(res)
-    res = snlp.expand_contractions(res)
+    res = _slang.apply(res)
+    res = _contraction.apply(res)
     res = " ".join(res.split())
     return res
 
