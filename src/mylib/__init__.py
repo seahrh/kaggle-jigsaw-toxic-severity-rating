@@ -18,7 +18,10 @@ __all__ = [
 _emoticon = snlp.EmoticonToText(prefix=" [", suffix="] ")
 _slang = snlp.SlangExpansion()
 _contraction = snlp.ContractionExpansion()
-_repeating_letter = snlp.CollapseRepeatingCharacter(max_repeat=3)
+_r_char = snlp.RepeatingCharacter(max_times=3, letters=True, punctuation=True)
+_r_substring = snlp.RepeatingSubstring(
+    min_length=3, max_times=1, letters=True, punctuation=True
+)
 
 
 def pre1(s: AnyStr) -> str:
@@ -30,6 +33,7 @@ def pre1(s: AnyStr) -> str:
     res = snlp.collapse_whitespace(res)
     res = snlp.strip_xml(res, replacement=" ")
     res = snlp.strip_url(res, replacement=" ")
+    res = snlp.strip_ip_address(res, replacement=" ")
     res = emoji.demojize(res)
     res = snlp.emoji_shortcode_to_text(res)
     res = _emoticon.apply(res)
@@ -44,7 +48,8 @@ def pre2(s: str) -> str:
     Preprocess Stage 2: Prepare output for transformer models, embeddings
     """
     res = s
-    res = _repeating_letter.apply(res)
+    res = _r_substring.collapse(res)
+    res = _r_char.collapse(res)
     res = _slang.apply(res)
     res = _contraction.apply(res)
     res = snlp.collapse_whitespace(res)
