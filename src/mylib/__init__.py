@@ -76,6 +76,14 @@ def upper_frac(s: str) -> float:
     return snlp.count_upper(s) / len(s)  # type: ignore
 
 
+def repeat_char(s: str) -> float:
+    return _r_char.count(s) / len(s)  # type: ignore
+
+
+def repeat_substring(s: str) -> float:
+    return _r_substring.count_char(s) / len(s)  # type: ignore
+
+
 # noinspection PyUnresolvedReferences
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, encodings):
