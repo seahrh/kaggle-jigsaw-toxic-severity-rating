@@ -10,4 +10,4 @@ include *.ini
 #include models/xlm_roberta_large/20211108_180312/lightning_logs/version_0/checkpoints/*.bin
 #include models/xlm_roberta_large/20211108_180312/lightning_logs/version_0/checkpoints/*.json
 
-include models/lgb/20211223_161459/model.txt
+include models/lgb/20220130_173616/model.txt
