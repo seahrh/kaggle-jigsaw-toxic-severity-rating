@@ -1,4 +1,5 @@
 import emoji
+import spacy
 import torch
 from scml import nlp as snlp
 from typing import AnyStr
@@ -7,11 +8,14 @@ from typing import AnyStr
 __all__ = [
     "pre1",
     "pre2",
+    "pre3",
     "digit_frac",
     "letter_frac",
     "space_frac",
     "punc_frac",
     "upper_frac",
+    "repeat_char_frac",
+    "repeat_substring_frac",
     "Dataset",
 ]
 
@@ -22,6 +26,7 @@ _r_char = snlp.RepeatingCharacter(max_times=3, letters=True, punctuation=True)
 _r_substring = snlp.RepeatingSubstring(
     min_length=3, max_times=1, letters=True, punctuation=True
 )
+nlp = spacy.load("en_core_web_lg", exclude=["textcat"])
 
 
 def pre1(s: AnyStr) -> str:
@@ -56,6 +61,23 @@ def pre2(s: str) -> str:
     return res
 
 
+def pre3(s: str) -> str:
+    """
+    Preprocess Stage 3: Prepare output for TF-IDF features
+    """
+    res = s
+    res = snlp.strip_punctuation(res, replacement=" ")
+    doc = nlp(res)
+    tokens = []
+    for token in doc:
+        # some lemma has uppercase char
+        tokens.append(token.lemma_)
+    res = " ".join(tokens)
+    res = res.lower()
+    res = snlp.collapse_whitespace(res)
+    return res
+
+
 def digit_frac(s: str) -> float:
     return snlp.count_digit(s) / len(s)  # type: ignore
 
@@ -76,11 +98,11 @@ def upper_frac(s: str) -> float:
     return snlp.count_upper(s) / len(s)  # type: ignore
 
 
-def repeat_char(s: str) -> float:
+def repeat_char_frac(s: str) -> float:
     return _r_char.count(s) / len(s)  # type: ignore
 
 
-def repeat_substring(s: str) -> float:
+def repeat_substring_frac(s: str) -> float:
     return _r_substring.count_char(s) / len(s)  # type: ignore
 
 

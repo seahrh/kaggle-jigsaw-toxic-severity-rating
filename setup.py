@@ -15,6 +15,7 @@ setup(
         "scikit-learn==0.23.2",
         "pytorch-lightning==1.4.5",
         "sentence-transformers==2.1.0",
+        "spacy==3.1.4",
         "textstat==0.7.2",
         "transformers==4.12.5",
         "tqdm==4.62.1",
