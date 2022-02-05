@@ -20,7 +20,7 @@ __all__ = [
 ]
 
 _emoticon = snlp.EmoticonToText(prefix=" [", suffix="] ")
-_slang = snlp.SlangExpansion()
+_slang = snlp.SlangExpansion(keep_original_term=True)
 _contraction = snlp.ContractionExpansion()
 _r_char = snlp.RepeatingCharacter(max_times=3, letters=True, punctuation=True)
 _r_substring = snlp.RepeatingSubstring(
