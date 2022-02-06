@@ -8,6 +8,7 @@ setup(
     install_requires=[
         "emoji==1.6.1",
         "detoxify==0.4.0",
+        "faiss-cpu==1.7.2",
         "lightgbm==3.3.1",
         "optuna==2.9.1",
         "pandas==1.3.2",

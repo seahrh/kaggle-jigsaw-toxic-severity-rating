@@ -1,8 +1,10 @@
 import emoji
+import numpy as np
+import pandas as pd
 import spacy
 import torch
 from scml import nlp as snlp
-from typing import AnyStr
+from typing import AnyStr, Dict, Union
 
 
 __all__ = [
@@ -17,7 +19,23 @@ __all__ = [
     "repeat_char_frac",
     "repeat_substring_frac",
     "Dataset",
+    "comp_metric",
 ]
+
+
+def comp_metric(
+    preds: Dict[str, Union[int, float]], validation_data: pd.DataFrame
+) -> float:
+    scores = []
+    for t in validation_data.itertuples():
+        less = getattr(t, "less_toxic")
+        more = getattr(t, "more_toxic")
+        s = 0
+        if preds[less] < preds[more]:
+            s = 1
+        scores.append(s)
+    return float(np.mean(scores))
+
 
 _emoticon = snlp.EmoticonToText(prefix=" [", suffix="] ")
 _slang = snlp.SlangExpansion(keep_original_term=True)
