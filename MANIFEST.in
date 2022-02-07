@@ -1,5 +1,6 @@
 exclude *.ipynb
 include *.ini
+graft data
 
 #include models/xlm_roberta_large/20211105_085009/trial_0/fold_0/lightning_logs/version_0/checkpoints/*.bin
 #include models/xlm_roberta_large/20211105_085009/trial_0/fold_0/lightning_logs/version_0/checkpoints/*.json
@@ -10,4 +11,4 @@ include *.ini
 #include models/xlm_roberta_large/20211108_180312/lightning_logs/version_0/checkpoints/*.bin
 #include models/xlm_roberta_large/20211108_180312/lightning_logs/version_0/checkpoints/*.json
 
-include models/lgb/20220130_173616/model.txt
+include models/lgb/20220207_175155/model.txt
