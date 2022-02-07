@@ -3,6 +3,7 @@ output/
 models/
 pretrained
 .idea/
+bak/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
